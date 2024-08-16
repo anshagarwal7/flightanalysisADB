@@ -46,4 +46,22 @@ if not any(mount.mountPoint==mountPoint for mount in dbutils.fs.mounts()):
 
 # COMMAND ----------
 
+configs = {
+    "fs.azure.account.auth.type": "OAuth",
+    "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
+    "fs.azure.account.oauth2.client.id": dbutils.secrets.get(scope = "training-secret", key = "data-app-id"),
+    "fs.azure.account.oauth2.client.secret": dbutils.secrets.get(scope="training-secret", key="data-app-secret"),
+    "fs.azure.account.oauth2.client.endpoint": dbutils.secrets.get(scope = "training-secret", key ="data-client-refresh-url")
+}
+
+mountPoint="/mnt/mart_datalake/"
+if not any(mount.mountPoint == mountPoint for mount in dbutils.fs.mounts()):
+    dbutils.fs.mount(
+        source = dbutils.secrets.get(scope = "training-secret", key = "datalake-mart"),
+        mount_point = mountPoint,
+        extra_configs = configs
+    )
+
+# COMMAND ----------
+
 dbutils.fs.mounts()
