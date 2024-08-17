@@ -22,8 +22,7 @@ LOCATION '/mnt/mart_datalake/Reporting_Flight'
 -- COMMAND ----------
 
 -- MAGIC %py
--- MAGIC #max_year=spark.sql("select year(max(date)) from cleansed_geekcoders.flight").collect()[0][0]
--- MAGIC max_year=2005
+-- MAGIC max_year=spark.sql("select year(max(date)) from cleansed_geekcoders.flight").collect()[0][0]
 
 -- COMMAND ----------
 
